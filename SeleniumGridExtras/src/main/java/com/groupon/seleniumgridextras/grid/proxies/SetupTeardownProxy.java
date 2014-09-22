@@ -90,27 +90,31 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
 
   @Override
   public TestSession getNewSession(Map<String, Object> requestedCapability) {
-    synchronized (this) {
-      if (timeToReboot() && !this.isBusy()) {
-        setAvailable(false);
-        setRestarting(false);
+//    synchronized (this) {
+      if(hasCapability(requestedCapability)) {
+          if (!this.isBusy() && timeToReboot()) {
+              setAvailable(false);
+              setRestarting(false);
 //        killBrowserForCurrentSession();
-        stopGridNode();
-        rebootGridExtrasNode();
-      }
+              stopGridNode();
+              rebootGridExtrasNode();
+          }
 
-      if (isAvailable()) {
-        TestSession session = super.getNewSession(requestedCapability);
-        if (session == null) {
-          return null;
-        } else {
-          return session;
-        }
+          if (isAvailable()) {
+              TestSession session = super.getNewSession(requestedCapability);
+              if (session == null) {
+                  return null;
+              } else {
+                  return session;
+              }
+          } else {
+              return null;
+          }
+
+//    }
       } else {
-        return null;
+          return null;
       }
-
-    }
   }
 
 

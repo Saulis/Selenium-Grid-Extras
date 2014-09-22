@@ -74,13 +74,14 @@ public class GridStatus extends ExecuteOSTask {
   @Override
   public JsonObject execute() {
     try {
-      JsonObject hubInfo = PortChecker.getParsedPortInfo(4444);
-      JsonObject nodeInfo = PortChecker.getParsedPortInfo(5555);
+//      JsonObject hubInfo = PortChecker.getParsedPortInfo(4444);
+//      JsonObject nodeInfo = PortChecker.getParsedPortInfo(5555);
 
-      getJsonResponse().addKeyValues("hub_running", hubInfo.isJsonNull() ? false : true);
-      getJsonResponse().addKeyValues("node_running", nodeInfo.isJsonNull() ? false : true);
-      getJsonResponse().addKeyValues("hub_info", hubInfo);
-      getJsonResponse().addKeyValues("node_info", nodeInfo);
+//      getJsonResponse().addKeyValues("hub_running", hubInfo.isJsonNull() ? false : true);
+//      getJsonResponse().addKeyValues("node_running", nodeInfo.isJsonNull() ? false : true);
+        getJsonResponse().addKeyValues("node_running", true);
+//      getJsonResponse().addKeyValues("hub_info", hubInfo);
+//      getJsonResponse().addKeyValues("node_info", nodeInfo);
 
       getJsonResponse().addKeyValues("node_sessions_started",
                                      RuntimeConfig.getTestSessionTracker().getSessionsStarted());
