@@ -38,27 +38,23 @@
 
 package com.groupon.seleniumgridextras.grid.proxies;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-
-import com.groupon.seleniumgridextras.utilities.HttpUtility;
-
-import org.apache.log4j.Logger;
-import org.openqa.grid.common.exception.RemoteUnregisterException;
-
-
-import org.openqa.grid.common.RegistrationRequest;
-import org.openqa.grid.internal.Registry;
-import org.openqa.grid.internal.TestSession;
-import org.openqa.grid.internal.listeners.TestSessionListener;
-import org.openqa.grid.selenium.proxy.DefaultRemoteProxy;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.openqa.grid.common.RegistrationRequest;
+import org.openqa.grid.common.exception.RemoteUnregisterException;
+import org.openqa.grid.internal.Registry;
+import org.openqa.grid.internal.TestSession;
+import org.openqa.grid.internal.listeners.TestSessionListener;
+import org.openqa.grid.selenium.proxy.DefaultRemoteProxy;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.groupon.seleniumgridextras.utilities.HttpUtility;
 
 
 public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessionListener {
@@ -76,8 +72,9 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
 
   @Override
   public TestSession getNewSession(Map<String, Object> requestedCapability) {
-    synchronized (this) {
-      if (timeToReboot() && !this.isBusy()) {
+//    synchronized (this) {
+    if(hasCapability(requestedCapability)) {
+      if (!this.isBusy() && timeToReboot()) {
         setAvailable(false);
         setRestarting(false);
 //        killBrowserForCurrentSession();
@@ -95,8 +92,10 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
       } else {
         return null;
       }
-
+    } else {
+      return null;
     }
+//    }
   }
 
 

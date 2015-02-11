@@ -1,17 +1,16 @@
 package com.groupon.seleniumgridextras.grid;
 
-import com.google.gson.JsonObject;
-
-import com.groupon.seleniumgridextras.ExecuteCommand;
-import com.groupon.seleniumgridextras.JsonResponseBuilder;
-import com.groupon.seleniumgridextras.config.RuntimeConfig;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.gson.JsonObject;
+import com.groupon.seleniumgridextras.ExecuteCommand;
+import com.groupon.seleniumgridextras.JsonResponseBuilder;
+import com.groupon.seleniumgridextras.config.RuntimeConfig;
 
 public class GridStarter {
 
@@ -34,7 +33,7 @@ public class GridStarter {
         logCommand = " -log log" + RuntimeConfig.getOS().getFileSeparator() + "grid_hub.log";
 
     command.append(logCommand);
-    command.append(" -newSessionWaitTimeout 120000 -browserTimeout 120");
+    command.append(" -browserTimeout 120 -jettyMaxThreads 10000 -nodePolling 10000");
 
     logger.info("Hub Start Command: \n\n" + String.valueOf(command));
     return String.valueOf(command);
