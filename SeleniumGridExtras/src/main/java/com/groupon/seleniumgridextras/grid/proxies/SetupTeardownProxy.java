@@ -172,6 +172,11 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
   protected boolean timeToReboot() {
     JsonObject status = callRemoteGridExtras("grid_status");
 
+    // Reboot if status check fails.
+    if(status == null) {
+      return true;
+    }
+
     boolean nodeRunning = status.get("node_running").getAsBoolean();
     int sessionsStarted = status.get("node_sessions_started").getAsInt();
     int sessionLimit = status.get("node_sessions_limit").getAsInt();

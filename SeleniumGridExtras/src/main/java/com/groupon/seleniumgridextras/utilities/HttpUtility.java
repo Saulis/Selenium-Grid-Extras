@@ -1,15 +1,12 @@
 package com.groupon.seleniumgridextras.utilities;
 
-import org.apache.http.HttpResponse;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import org.apache.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA. User: dima Date: 7/8/14 Time: 3:23 PM To change this template use
@@ -44,7 +41,11 @@ public class HttpUtility {
   public static HttpURLConnection getRequest(URL url) throws IOException {
     logger.info("Making GET request to " + url);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
     conn.setRequestMethod("GET");
+    conn.setConnectTimeout(10000);
+    conn.setReadTimeout(10000);
+
     logger.info("Response code is " + conn.getResponseCode());
     return conn;
   }
