@@ -211,7 +211,9 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
   }
 
   private void writeProxyLog(Object logItem){
-    logger.info(logItem.toString());
+    if(logItem != null) {
+        logger.info(logItem.toString());
+    }
   }
 
 }
