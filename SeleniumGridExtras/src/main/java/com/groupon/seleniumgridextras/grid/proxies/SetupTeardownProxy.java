@@ -38,9 +38,6 @@
 
 package com.groupon.seleniumgridextras.grid.proxies;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Map;
 
@@ -136,22 +133,16 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
 
     try {
 
-      returnedString = HttpUtility.getRequestAsString(
-          new URL("http://" + getHost() + ":3000/" + action));
+        returnedString = HttpUtility.getRequestAsString(
+                new URL("http://" + getHost() + ":3000/" + action));
 
-      JsonParser j = new JsonParser();
-      logger.info(returnedString);
-      return (JsonObject) j.parse(returnedString);
+        JsonParser j = new JsonParser();
+        logger.info(returnedString);
+        return (JsonObject) j.parse(returnedString);
 
-    } catch (MalformedURLException e) {
-      writeProxyLog(e.toString());
-      e.printStackTrace();
-    } catch (ProtocolException e) {
-      writeProxyLog(e.toString());
-      e.printStackTrace();
-    } catch (IOException e) {
-      writeProxyLog(e.toString());
-      e.printStackTrace();
+    } catch (Exception e) {
+        writeProxyLog(e.toString());
+        logger.warn(String.format("Failed to perform %s on %s", action, getHost()), e);
     }
 
     return null;
@@ -186,8 +177,7 @@ public class SetupTeardownProxy extends DefaultRemoteProxy implements TestSessio
     } else if (sessionLimit == 0) {
       return false;
     } else if (sessionsStarted >= sessionLimit) {
-      System.out
-          .println("Node " + getHost() + " has reached " + sessionsStarted + " of " + sessionLimit
+      logger.warn("Node " + getHost() + " has reached " + sessionsStarted + " of " + sessionLimit
                    + " test session, time to reboot");
     } else {
       return false;
